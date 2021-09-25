@@ -16,20 +16,18 @@ class BooksDataSourceTester(unittest.TestCase):
     def test_unique_author(self):
         authors = self.data_source.authors('Pratchett') # Search Term that goes into books.py.
         self.assertTrue(len(authors) == 1) # Sees if authors is an array with length 1.
-        self.assertTrue(authors[0] == Author('Pratchett', 'Terry')) # Sees if the first slot in the author array
-                                                                    # contains Pratchett and Terry.
+        self.assertTrue(authors[0] == Author('Pratchett', 'Terry')) # Sees if the first slot in the author array # contains Pratchett and Terry.
 
     def test_unique_book(self):
-        books = self.data_source.authors('Never')
-        self.assertTrue(len(authors) == 1)
-        self.assertTrue(authors[0] == Book('Neverwhere'))
+        books = self.data_source.books('Never')
+        self.assertTrue(len(books) == 1)
+        self.assertTrue(books[0] == Book('Neverwhere'))
 
     def test_startyear_equals_endyear(self):
         books = self.data_source.books_between_years(1939,1939)
         self.assertTrue(len(books) == 1)
-        self.assertTrue(books[0] == Book('And Then There Were None')
+        self.assertTrue(books[0] == Book('And Then There Were None'))
 
-    #test merge comment
 
 if __name__ == '__main__':
     unittest.main()
