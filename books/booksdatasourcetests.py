@@ -18,6 +18,11 @@ class BooksDataSourceTester(unittest.TestCase):
         self.assertTrue(len(authors) == 1)
         self.assertTrue(authors[0] == Author('Pratchett', 'Terry'))
 
+    def test_startyear_equals_endyear(self):
+        books = self.data_source.books_between_years(1939,1939)
+        self.assertTrue(len(books) == 1)
+        self.assertTrue(books[0] == Book('And Then There Were None')
+
 if __name__ == '__main__':
     unittest.main()
 
