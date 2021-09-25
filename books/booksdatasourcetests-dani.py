@@ -3,6 +3,24 @@
    Jeff Ondich, 24 September 2021
 '''
 
+'''
+Tests to make:
+- Test book with number in title
+- Test single letter book search
+- Test letters with accents author search
+- Test dead author
+- Test just start year
+- Test empty book search
+- Test author tie breaking by given name
+
+
+Tests made:
+- Test unique author
+- Test unique book
+- Test same year
+
+'''
+
 import booksdatasource
 import unittest
 

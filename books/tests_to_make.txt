@@ -1,4 +1,4 @@
-Tests to make:i
+Tests to make:
 - Dani will take the evens
 - Kiri will take the odds
 
