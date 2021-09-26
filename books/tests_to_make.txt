@@ -2,13 +2,7 @@ Tests to make:
 - Dani will take the evens
 - Kiri will take the odds
 
-1. Test different years
-3. Test comma in book title
-5. Test single letter author search
-7. Test multiple authors on same book
-9. Test alive author
-11. Test just end year
-13. Test empty author search
+5. Test single letter author search -- replaced this test with Test start year later than end year
 
 Tests made:
 - Test unique author
@@ -24,5 +18,10 @@ Tests made:
 - Test just start year
 - Test empty book search
 - Test author tie breaking by given name
-
+- Test different years
+- Test comma in book title
+- Test start year later than end year
+- Test multiple authors on one book
+- Test alive author
+- Test empty author search
 
