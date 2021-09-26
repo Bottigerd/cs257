@@ -28,6 +28,38 @@ class BooksDataSourceTester(unittest.TestCase):
         self.assertTrue(len(books) == 1)
         self.assertTrue(books[0] == Book('And Then There Were None'))
 
+    def test_book_with_number(self):
+        books = self.data_source.books('1')
+        self.assertTrue(len(books) == 1)
+        self.assertTrue(books[0] == Book('1Q84'))
+        
+    def test_book_single_letter(self):
+        books = self.data_source.books('Q')
+        self.assertTrue(len(books) == 1)
+        self.assertTrue(books[0] == Book('1Q84'))
+    
+    def test_author_accent_letter(self):
+        authors = self.data_source.authors('Brontë')
+        self.assertTrue(len(authors) == 3)
+
+    def test_dead_author(self):
+        authors = self.data_source.authors('Willis')
+        self.assertTrue(len(authors) == 1)
+        self.assertTrue(authors[0] == Author('Willis', 'Connie'))
+
+    def test_start_year_only(self):
+        books = self.data_source.books_between_years(2003, 0) #Not sure what value would show that there's no end year. Using 0 for now.
+        self.assertTrue(len(books) == 9)
+
+    def test_all_books(self):
+        books = self.data_source.books()
+        self.assertTrue(len(books) == 41)
+
+    def test_author_accent_letter(self):
+        authors = self.data_source.authors('Brontë')
+        self.assertTrue(len(authors) == 3)
+        self.assertTrue(authors[0] == Author('Brontë', 'Ann'))
+
 
 if __name__ == '__main__':
     unittest.main()

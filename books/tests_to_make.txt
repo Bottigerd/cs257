@@ -3,24 +3,26 @@ Tests to make:
 - Kiri will take the odds
 
 1. Test different years
-2. Test book with number in title
 3. Test comma in book title
-4. Test single letter book search
 5. Test single letter author search
-6. Test letters with accents author search
 7. Test multiple authors on same book
-8. Test dead author
 9. Test alive author
-10. Test just start year
 11. Test just end year
-12. Test empty book search
 13. Test empty author search
-14. Test author tie breaking by given name
-
 
 Tests made:
 - Test unique author
 - Test unique book
 - Test same year
+- Test unique author
+- Test unique book
+- Test same year
+- Test book with number in title
+- Test single letter book search
+- Test letters with accents author search
+- Test dead author
+- Test just start year
+- Test empty book search
+- Test author tie breaking by given name
 
 
