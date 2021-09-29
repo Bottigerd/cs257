@@ -34,6 +34,9 @@ class Book:
             thing as "same book". '''
         return self.title == other.title
 
+booksList = [] # The complete list of books
+authorsList = [] # The complete list of authors
+
 class BooksDataSource:
     def __init__(self, books_csv_file_name):
         ''' The books CSV file format looks like this:
@@ -56,8 +59,9 @@ class BooksDataSource:
             rows.append(row)
         file.close()
 
-        booksList = [] # The complete list of books
-        authorsList = [] # The complete list of authors
+        global booksList # The complete list of books
+        global authorsList # The complete list of authors
+
         for row in rows: # each row in rows is a different book publication
             bookTitle = row[0]
             publicationYear = row[1]
@@ -65,6 +69,10 @@ class BooksDataSource:
 
             '''
             Parsing Author Information
+            This should work unless we have an author with three words in their name which is the case sometimes.
+            Here's some thoughts on how we could get that to work:
+                We could keep concatinating onto the given name/surname until the first character of our string is a '(', in which case we move onto our usual birth/death year stuff. 
+                We could probably have an index counter for where we are in authorTemp, so the stuff for second author would be like index+1, index+2, etc.
             '''
             authorTemp = authorsString.split(' ') # this splits our string of authors into an array for easier digesting.
             birthYearTemp = authorTemp[2][1: 5]
@@ -96,9 +104,18 @@ class BooksDataSource:
             '''
             book1 = Book(bookTitle, publicationYear, booksAuthors)
             booksList.append(book1)
-        print(booksList)
 
+    def printBooks(self):
+        '''
+        A method purely for testing if booksList got its information right
+        '''
+        global booksList # The complete list of books
 
+        for book in booksList:
+            if (len(book.authors) > 1):
+                print(book.title + ', ' + book.publication_year + ', ' + book.authors[0].given_name + ' ' + book.authors[0].surname + ' and ' + book.authors[1].given_name + ' ' + book.authors[1].surname)
+            else:
+                print(book.title + ', ' + book.publication_year + ', ' + book.authors[0].given_name + ' ' + book.authors[0].surname)
 
     def authors(self, search_text=None):
         ''' Returns a list of all the Author objects in this data source whose names contain
@@ -137,3 +154,4 @@ class BooksDataSource:
 
 if __name__ == '__main__':
     books = BooksDataSource('books1.csv')
+    #books.printBooks()
