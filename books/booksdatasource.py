@@ -8,6 +8,7 @@
 '''
 
 import csv
+import operator
 
 class Author:
     def __init__(self, surname='', given_name='', birth_year=None, death_year=None):
@@ -133,13 +134,12 @@ class BooksDataSource:
             book1 = Book(bookTitle, publicationYear, booksAuthors)
             booksList.append(book1)
 
-    def printBooks(self):
+    def printBooks(self, printedList = []):
         '''
         A method purely for testing if booksList got its information right
         '''
-        global booksList # The complete list of books
 
-        for book in booksList:
+        for book in printedList:
             if (len(book.authors) > 1):
                 print(book.title + ', ' + book.publication_year + ', ' + book.authors[0].given_name + ' ' + book.authors[0].surname + ' (' + book.authors[0].birth_year + '-' + book.authors[0].death_year + ')' + ' and ' + book.authors[1].given_name + ' ' + book.authors[1].surname+ '(' + book.authors[1].birth_year + '-' + book.authors[1].death_year + ')')
             else:
@@ -178,8 +178,54 @@ class BooksDataSource:
             during start_year should be included. If both are None, then all books
             should be included.
         '''
-        return []
+        global booksList
+        qualifyingbooks = []
+
+        if start_year != None and end_year != None and start_year > end_year: #in case the order of the years doesn't make sense, we can swap them instead of throwing an error
+            temp = start_year
+            start_year = end_year
+            end_year = temp
+
+        if start_year == None:
+            '''
+            Get all the books published from the beginning of time to end_year (inclusive)
+            '''
+            for book in booksList:
+                if int(book.publication_year) <= end_year:
+                    qualifyingbooks.append(book)
+        elif end_year == None:
+            '''
+            Get all the books published from the start_year to the end of time (inclusive)
+            '''
+            for book in booksList:
+                if int(book.publication_year) >= start_year:
+                    qualifyingbooks.append(book)
+        else:
+            '''
+            Get all books published between the start_year (inclusive) and end-year (inclusive)
+            '''
+            for book in booksList:
+                if int(book.publication_year) >= start_year and int(book.publication_year) <= end_year:
+                    qualifyingbooks.append(book)
+        
+        return self.sortByYear(qualifyingbooks)
+    
+    def sortByYear(self, qualifyingbooks = []):
+        '''
+        Sorts a list of given books by their publication date, ties are broken by title.
+        '''
+        sortedBooks = sorted(qualifyingbooks, key = operator.attrgetter('publication_year', 'title'))
+        return sortedBooks
+
+    def sortByTitle(self, qualifyingbooks = []):
+        '''
+        Sorts a list of given books by their title, breaking ties by year. Though there shouldn't be any books with the same name.
+        '''
+        sortedBooks = sorted(qualifyingbooks, key = operator.attrgetter('title', 'publication_year'))
+        return sortedBooks
 
 if __name__ == '__main__':
     books = BooksDataSource('books1.csv')
-    #books.printBooks()
+
+    #books.printBooks(booksList)
+    #books.printBooks(books.books_between_years(1939, 1939))
