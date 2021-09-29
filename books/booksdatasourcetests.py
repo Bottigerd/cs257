@@ -93,7 +93,7 @@ class BooksDataSourceTester(unittest.TestCase):
 
     def test_empty_author(self):
         authors = self.data_source.authors()
-        self.assertTrue(authors == []) #yes this test will already pass but I'm not sure what else we would want an empty search to output
+        self.assertTrue(authors == 21) 
 
 
 if __name__ == '__main__':
