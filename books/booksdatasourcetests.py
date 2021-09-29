@@ -1,9 +1,11 @@
 '''
    booksdatasourcetest.py
-   Jeff Ondich, 24 September 2021
+   Dani Bottiger and Kiri Salij
+   CS257 Software Design - Fall 2021
 '''
-
 import booksdatasource
+from booksdatasource import Author
+from booksdatasource import Book
 import unittest
 
 class BooksDataSourceTester(unittest.TestCase):
