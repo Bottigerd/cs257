@@ -1,3 +1,7 @@
+CS257 SOFTWARE DESIGN - FALL 2021
+DANI BOTTIGER
+KIRI SALIJ
+
 NAME
 	books.py -- list book database information
 
