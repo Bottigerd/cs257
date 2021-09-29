@@ -49,7 +49,56 @@ class BooksDataSource:
             suitable instance variables for the BooksDataSource object containing
             a collection of Author objects and a collection of Book objects.
         '''
-        pass
+        file = open(books_csv_file_name)
+        csvreader = csv.reader(file)
+        rows = []
+        for row in csvreader: 
+            rows.append(row)
+        file.close()
+
+        booksList = [] # The complete list of books
+        authorsList = [] # The complete list of authors
+        for row in rows: # each row in rows is a different book publication
+            bookTitle = row[0]
+            publicationYear = row[1]
+            authorsString = row[2] # this is a string of the author(s) information (pre-parsing)
+
+            '''
+            Parsing Author Information
+            '''
+            authorTemp = authorsString.split(' ') # this splits our string of authors into an array for easier digesting.
+            birthYearTemp = authorTemp[2][1: 5]
+            deathYearTemp = None # this creates deathYearTemp so we can access it outside of the if statement
+            author1 = None # this creates the author so we can access it outside of the if statement and so we can add it to the book later
+            booksAuthors = []
+            if len(authorTemp[2]) > 7:
+                deathYearTemp = authorTemp[2][6: 10] # this gets the death year if it does exist
+                author1 = Author(authorTemp[1], authorTemp[0], birthYearTemp, deathYearTemp)
+            else:
+                author1 = Author(authorTemp[1], authorTemp[0], birthYearTemp)
+            authorsList.append(author1) # this adds our now parsed author to the list of authors
+            booksAuthors.append(author1)
+
+
+            author2 = None # we have a variable so we can add it to the book
+            if len(authorTemp) > 3: # this is for the case of more than one author
+                birthYearTemp = authorTemp[6][1: 5]
+                if len(authorTemp[6]) > 7:
+                    deathYearTemp = authorTemp[6][6: 10] # this gets the death year if it does exist
+                    author2 = Author(authorTemp[5], authorTemp[4], birthYearTemp, deathYearTemp)
+                else:
+                    author2 = Author(authorTemp[5], authorTemp[4], birthYearTemp)
+                authorsList.append(author2)
+                booksAuthors.append(author2)
+
+            '''
+            Parsing Book Information
+            '''
+            book1 = Book(bookTitle, publicationYear, booksAuthors)
+            booksList.append(book1)
+        print(booksList)
+
+
 
     def authors(self, search_text=None):
         ''' Returns a list of all the Author objects in this data source whose names contain
@@ -86,3 +135,5 @@ class BooksDataSource:
         '''
         return []
 
+if __name__ == '__main__':
+    books = BooksDataSource('books1.csv')
