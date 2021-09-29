@@ -75,27 +75,55 @@ class BooksDataSource:
                 We could probably have an index counter for where we are in authorTemp, so the stuff for second author would be like index+1, index+2, etc.
             '''
             authorTemp = authorsString.split(' ') # this splits our string of authors into an array for easier digesting.
-            birthYearTemp = authorTemp[2][1: 5]
+            '''
+            Name Parsing, Author 1
+            '''
+            index = 0
+            givenName = ''
+            while authorTemp[index+1][0] != '(':
+                givenName = givenName + authorTemp[index] + ' '
+                index = index + 1
+            
+            surname = authorTemp[index]
+            
+            '''
+            Year Parsing and appending to lists, Author 1
+            '''
+            birthYearTemp = authorTemp[index+1][1: 5]
             deathYearTemp = None # this creates deathYearTemp so we can access it outside of the if statement
             author1 = None # this creates the author so we can access it outside of the if statement and so we can add it to the book later
             booksAuthors = []
-            if len(authorTemp[2]) > 7:
-                deathYearTemp = authorTemp[2][6: 10] # this gets the death year if it does exist
-                author1 = Author(authorTemp[1], authorTemp[0], birthYearTemp, deathYearTemp)
+            if len(authorTemp[index+1]) > 7:
+                deathYearTemp = authorTemp[index+1][6: 10] # this gets the death year if it does exist
+                author1 = Author(surname, givenName, birthYearTemp, deathYearTemp)
             else:
-                author1 = Author(authorTemp[1], authorTemp[0], birthYearTemp)
+                author1 = Author(surname, givenName, birthYearTemp, '')
             authorsList.append(author1) # this adds our now parsed author to the list of authors
             booksAuthors.append(author1)
 
-
+            '''
+            Name Parsing, Author 2
+            '''
             author2 = None # we have a variable so we can add it to the book
-            if len(authorTemp) > 3: # this is for the case of more than one author
-                birthYearTemp = authorTemp[6][1: 5]
-                if len(authorTemp[6]) > 7:
+            index = index + 3 # one for the years, one for the and that seperates the authors
+
+            if len(authorTemp)-index > 0: # this is for the case of more than one author
+                givenName = ''
+                while authorTemp[index+1][0] != '(':
+                    givenName = givenName + authorTemp[index] + ' '
+                    index = index + 1
+            
+                surname = authorTemp[index]
+
+                '''
+                Year Parsing and appending to lists, Author 2
+                '''
+                birthYearTemp = authorTemp[index+1][1: 5]
+                if len(authorTemp[index+1]) > 7:
                     deathYearTemp = authorTemp[6][6: 10] # this gets the death year if it does exist
-                    author2 = Author(authorTemp[5], authorTemp[4], birthYearTemp, deathYearTemp)
+                    author2 = Author(surname, givenName, birthYearTemp, deathYearTemp)
                 else:
-                    author2 = Author(authorTemp[5], authorTemp[4], birthYearTemp)
+                    author2 = Author(surname, givenName, birthYearTemp, '')
                 authorsList.append(author2)
                 booksAuthors.append(author2)
 
@@ -113,9 +141,9 @@ class BooksDataSource:
 
         for book in booksList:
             if (len(book.authors) > 1):
-                print(book.title + ', ' + book.publication_year + ', ' + book.authors[0].given_name + ' ' + book.authors[0].surname + ' and ' + book.authors[1].given_name + ' ' + book.authors[1].surname)
+                print(book.title + ', ' + book.publication_year + ', ' + book.authors[0].given_name + ' ' + book.authors[0].surname + ' (' + book.authors[0].birth_year + '-' + book.authors[0].death_year + ')' + ' and ' + book.authors[1].given_name + ' ' + book.authors[1].surname+ '(' + book.authors[1].birth_year + '-' + book.authors[1].death_year + ')')
             else:
-                print(book.title + ', ' + book.publication_year + ', ' + book.authors[0].given_name + ' ' + book.authors[0].surname)
+                print(book.title + ', ' + book.publication_year + ', ' + book.authors[0].given_name + ' ' + book.authors[0].surname + ' (' + book.authors[0].birth_year + '-' + book.authors[0].death_year + ')')
 
     def authors(self, search_text=None):
         ''' Returns a list of all the Author objects in this data source whose names contain
