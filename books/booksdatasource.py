@@ -53,15 +53,19 @@ class BooksDataSource:
             suitable instance variables for the BooksDataSource object containing
             a collection of Author objects and a collection of Book objects.
         '''
+        
+        global booksList # The complete list of books
+        global authorsList # The complete list of authors
+
+        if len(booksList) != 0:
+            return None
+        
         file = open(books_csv_file_name)
         csvreader = csv.reader(file)
         rows = []
         for row in csvreader: 
             rows.append(row)
         file.close()
-
-        global booksList # The complete list of books
-        global authorsList # The complete list of authors
 
         for row in rows: # each row in rows is a different book publication
             bookTitle = row[0]
@@ -229,3 +233,7 @@ if __name__ == '__main__':
 
     #books.printBooks(booksList)
     #books.printBooks(books.books_between_years(1939, 1939))
+    #print()
+
+    #books = BooksDataSource('books1.csv')
+    #books.printBooks(books.books_between_years(2018,2019))
