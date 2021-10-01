@@ -159,7 +159,7 @@ class BooksDataSource:
         global authorsList
         qualifyingauthors = []
         if search_text==None:
-            return authorsList
+            return self.sortBySurname(authorsList)
 
         for author in authorsList:
             if search_text in author.surname or search_text in author.given_name:

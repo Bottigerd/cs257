@@ -13,6 +13,7 @@ parser.add_argument('searchTerm', metavar = 'searchTerm', type=str, help = 'sear
 args = parser.parse_args()
 
 #running the search
-booksdatasource = BooksDataSource('books1.csv')
-searchResults = booksdatasource.books(args.searchTerm)
-booksdatasource.printBooks(searchResults)
+books = BooksDataSource('books1.csv')
+
+searchResults = books.books(args.searchTerm)
+books.printBooks(searchResults)
