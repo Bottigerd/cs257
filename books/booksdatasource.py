@@ -89,8 +89,9 @@ class BooksDataSource:
                 givenName = givenName + authorTemp[index] + ' '
                 index = index + 1
             
-            surname = authorTemp[index]
-            
+            surname = authorTemp[index].strip()
+            givenName = givenName.strip()
+
             '''
             Year Parsing and appending to lists, Author 1
             '''
@@ -103,7 +104,10 @@ class BooksDataSource:
                 author1 = Author(surname, givenName, birthYearTemp, deathYearTemp)
             else:
                 author1 = Author(surname, givenName, birthYearTemp, '')
-            authorsList.append(author1) # this adds our now parsed author to the list of authors
+            
+            if author1 not in authorsList:
+                authorsList.append(author1) # this adds our now parsed author to the list of authors
+            
             booksAuthors.append(author1)
 
             '''
@@ -118,7 +122,8 @@ class BooksDataSource:
                     givenName = givenName + authorTemp[index] + ' '
                     index = index + 1
             
-                surname = authorTemp[index]
+                surname = authorTemp[index].strip()
+                givenName = givenName.strip()
 
                 '''
                 Year Parsing and appending to lists, Author 2
@@ -129,7 +134,9 @@ class BooksDataSource:
                     author2 = Author(surname, givenName, birthYearTemp, deathYearTemp)
                 else:
                     author2 = Author(surname, givenName, birthYearTemp, '')
-                authorsList.append(author2)
+                
+                if author1 not in authorsList:                
+                    authorsList.append(author2)
                 booksAuthors.append(author2)
 
             '''
@@ -148,6 +155,14 @@ class BooksDataSource:
                 print(book.title + ', ' + book.publication_year + ', ' + book.authors[0].given_name + ' ' + book.authors[0].surname + ' (' + book.authors[0].birth_year + '-' + book.authors[0].death_year + ')' + ' and ' + book.authors[1].given_name + ' ' + book.authors[1].surname+ '(' + book.authors[1].birth_year + '-' + book.authors[1].death_year + ')')
             else:
                 print(book.title + ', ' + book.publication_year + ', ' + book.authors[0].given_name + ' ' + book.authors[0].surname + ' (' + book.authors[0].birth_year + '-' + book.authors[0].death_year + ')')
+
+    def printAuthors(self, printedList = []):
+        '''
+        A method purely for testing if booksList got its information right
+        ''' 
+        
+        for author in printedList:
+            print(author.given_name + ' ' + author.surname + ' (' + author.birth_year + '-' + author.death_year + ')')        
 
     def authors(self, search_text=None):
         ''' Returns a list of all the Author objects in this data source whose names contain
@@ -258,6 +273,14 @@ class BooksDataSource:
 
         sortedBooks = sorted(qualifyingbooks, key = operator.attrgetter('title', 'publication_year'))
         return sortedBooks
+
+    def sortBySurname(self, qualifyingauthors = []):
+        '''
+        Sorts a list of given authors by their surname, breaking ties by given name.
+        '''
+        sortedAuthors = sorted(qualifyingauthors, key = operator.attrgetter('surname', 'given_name'))
+        return sortedAuthors
+
 
 if __name__ == '__main__':
     books = BooksDataSource('books1.csv')
