@@ -234,8 +234,10 @@ class BooksDataSource:
             temp = start_year
             start_year = end_year
             end_year = temp
-
-        if start_year == None:
+        
+        if start_year == None and end_year == None:
+            qualifyingbooks = booksList
+        elif start_year == None:
             '''
             Get all the books published from the beginning of time to end_year (inclusive)
             '''
