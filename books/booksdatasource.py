@@ -103,7 +103,10 @@ class BooksDataSource:
                 author1 = Author(surname, givenName, birthYearTemp, deathYearTemp)
             else:
                 author1 = Author(surname, givenName, birthYearTemp, '')
-            authorsList.append(author1) # this adds our now parsed author to the list of authors
+            
+            if author1 not in authorsList:
+                authorsList.append(author1) # this adds our now parsed author to the list of authors
+            
             booksAuthors.append(author1)
 
             '''
@@ -129,7 +132,9 @@ class BooksDataSource:
                     author2 = Author(surname, givenName, birthYearTemp, deathYearTemp)
                 else:
                     author2 = Author(surname, givenName, birthYearTemp, '')
-                authorsList.append(author2)
+                
+                if author1 not in authorsList:                
+                    authorsList.append(author2)
                 booksAuthors.append(author2)
 
             '''
