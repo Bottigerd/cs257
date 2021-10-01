@@ -203,7 +203,7 @@ class BooksDataSource:
             if search_text in book.title:
                 qualifyingbooks.append(book)
         
-        if sort_by == "year":
+        if sort_by == 'year':
             return self.sortByYear(qualifyingbooks)
         else:
             return self.sortByTitle(qualifyingbooks)
@@ -229,6 +229,9 @@ class BooksDataSource:
             start_year = None
         if end_year == 0:
             end_year = None
+        print(start_year)
+        print(end_year)
+        print()
         
         if start_year != None and end_year != None and start_year > end_year: #in case the order of the years doesn't make sense, we can swap them instead of throwing an error
             temp = start_year
