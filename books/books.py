@@ -4,7 +4,7 @@
 import argparse
 from booksdatasource import Book, Author, BooksDataSource
 
-parser = argparse.ArgumentParser(description='Searches book database')
+parser = argparse.ArgumentParser(description='Searches book database', add_help=False)
 
 #arguemnts
 parser.add_argument('-a', '--authors', action='store_true', help = 'tag for an author search')
@@ -19,13 +19,20 @@ parser.add_argument('endYear', type=int, nargs='?', default = 0, help = 'end yea
 parser.add_argument('-B', '--BookSort', action='store_true', help = 'tag for a book title sort')
 parser.add_argument('-Y', '--YearSort', action='store_true', help = 'tag for a publication year sort')
 
+parser.add_argument('-h', '--help', action='store_true', help = 'show this help message')
+
 #parsing the arugments
 args = parser.parse_args()
 
 #running the search
 booksdatasource = BooksDataSource('books1.csv')
 
-if args.authors:
+if args.help:
+    f = open('usage.txt', 'r')
+    content = f.read()
+    print(content)
+    f.close()
+elif args.authors:
     searchResults = booksdatasource.authors(args.searchTerm)
     booksdatasource.printAuthors(searchResults)
 elif args.books:
