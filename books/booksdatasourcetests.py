@@ -50,8 +50,8 @@ class BooksDataSourceTester(unittest.TestCase):
         self.assertTrue(authors[0] == Author('Willis', 'Connie'))
 
     def test_start_year_only(self):
-        books = self.data_source.books_between_years(2003, 0) #Not sure what value would show that there's no end year. Using 0 for now.
-        self.assertTrue(len(books) == 9) #error here
+        books = self.data_source.books_between_years(2003) #Not sure what value would show that there's no end year. Using 0 for now.
+        self.assertTrue(len(books) == 9)
 
     def test_all_books(self):
         books = self.data_source.books()
@@ -76,7 +76,9 @@ class BooksDataSourceTester(unittest.TestCase):
 
     def test_startyear_earlier_than_endyear(self):
         books = self.data_source.books_between_years(2019,2018)
-        self.assertTrue(len(books) == 41) #error here
+        self.assertTrue(len(books) == 2)
+        self.assertTrue(books[0] == Book('There, There'))
+        self.assertTrue(books[1] == Book('Fine, Thanks'))
         #honestly not sure what the desired outcome of this test should be, I think it depends on how we want to implement books_between_years
 
     def test_multiple_authors_one_book(self):

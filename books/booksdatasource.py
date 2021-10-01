@@ -185,6 +185,12 @@ class BooksDataSource:
         global booksList
         qualifyingbooks = []
 
+        #0 is the same as inputting nothing for a year in our implementation.
+        if start_year == 0:
+            start_year = None
+        if end_year == 0:
+            end_year = None
+        
         if start_year != None and end_year != None and start_year > end_year: #in case the order of the years doesn't make sense, we can swap them instead of throwing an error
             temp = start_year
             start_year = end_year
@@ -232,8 +238,4 @@ if __name__ == '__main__':
     books = BooksDataSource('books1.csv')
 
     #books.printBooks(booksList)
-    #books.printBooks(books.books_between_years(1939, 1939))
-    #print()
-
-    #books = BooksDataSource('books1.csv')
-    #books.printBooks(books.books_between_years(2018,2019))
+    books.printBooks(books.books_between_years(2019,2018))
