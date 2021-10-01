@@ -155,7 +155,17 @@ class BooksDataSource:
             returns all of the Author objects. In either case, the returned list is sorted
             by surname, breaking ties using given name (e.g. Ann Brontë comes before Charlotte Brontë).
         '''
-        return []
+
+        global authorsList
+        qualifyingauthors = []
+        if search_text==None:
+            return authorsList
+
+        for author in authorsList:
+            if search_text in author.surname or search_text in author.given_name:
+                qualifyingauthors.append(author)
+
+        return self.sortBySurname(qualifyingauthors)
 
     def books(self, search_text=None, sort_by='title'):
         ''' Returns a list of all the Book objects in this data source whose
@@ -169,7 +179,21 @@ class BooksDataSource:
                 default -- same as 'title' (that is, if sort_by is anything other than 'year'
                             or 'title', just do the same thing you would do for 'title')
         '''
-        return []
+        global booksList
+        qualifyingbooks = []
+        if search_text==None:
+            return booksList
+
+        for book in booksList:
+            if search_text in book.title:
+                qualifyingbooks.append(book)
+        
+        if sort_by == "year":
+            return self.sortByYear(qualifyingbooks)
+        else:
+            return self.sortByTitle(qualifyingbooks)
+
+
 
     def books_between_years(self, start_year=None, end_year=None):
         ''' Returns a list of all the Book objects in this data source whose publication
