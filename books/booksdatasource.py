@@ -89,8 +89,9 @@ class BooksDataSource:
                 givenName = givenName + authorTemp[index] + ' '
                 index = index + 1
             
-            surname = authorTemp[index]
-            
+            surname = authorTemp[index].strip()
+            givenName = givenName.strip()
+
             '''
             Year Parsing and appending to lists, Author 1
             '''
@@ -121,7 +122,8 @@ class BooksDataSource:
                     givenName = givenName + authorTemp[index] + ' '
                     index = index + 1
             
-                surname = authorTemp[index]
+                surname = authorTemp[index].strip()
+                givenName = givenName.strip()
 
                 '''
                 Year Parsing and appending to lists, Author 2
@@ -153,6 +155,14 @@ class BooksDataSource:
                 print(book.title + ', ' + book.publication_year + ', ' + book.authors[0].given_name + ' ' + book.authors[0].surname + ' (' + book.authors[0].birth_year + '-' + book.authors[0].death_year + ')' + ' and ' + book.authors[1].given_name + ' ' + book.authors[1].surname+ '(' + book.authors[1].birth_year + '-' + book.authors[1].death_year + ')')
             else:
                 print(book.title + ', ' + book.publication_year + ', ' + book.authors[0].given_name + ' ' + book.authors[0].surname + ' (' + book.authors[0].birth_year + '-' + book.authors[0].death_year + ')')
+
+    def printAuthors(self, printedList = []):
+        '''
+        A method purely for testing if booksList got its information right
+        ''' 
+        
+        for author in printedList:
+            print(author.given_name + ' ' + author.surname + ' (' + author.birth_year + '-' + author.death_year + ')')        
 
     def authors(self, search_text=None):
         ''' Returns a list of all the Author objects in this data source whose names contain
