@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 '''
     booksdatasource.py
-    Jeff Ondich, 21 September 2021
+    Dani Bottiger and Kiri Salij
 
     For use in the "books" assignment at the beginning of Carleton's
     CS 257 Software Design class, Fall 2021.
@@ -255,6 +255,7 @@ class BooksDataSource:
         '''
         Sorts a list of given books by their title, breaking ties by year. Though there shouldn't be any books with the same name.
         '''
+
         sortedBooks = sorted(qualifyingbooks, key = operator.attrgetter('title', 'publication_year'))
         return sortedBooks
 
