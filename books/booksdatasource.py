@@ -258,6 +258,14 @@ class BooksDataSource:
         sortedBooks = sorted(qualifyingbooks, key = operator.attrgetter('title', 'publication_year'))
         return sortedBooks
 
+    def sortBySurname(self, qualifyingauthors = []):
+        '''
+        Sorts a list of given authors by their surname, breaking ties by given name.
+        '''
+        sortedAuthors = sorted(qualifyingauthors, key = operator.attrgetter('surname', 'given_name'))
+        return sortedAuthors
+
+
 if __name__ == '__main__':
     books = BooksDataSource('books1.csv')
 
