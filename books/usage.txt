@@ -12,7 +12,9 @@ SYNOPSIS
 DESCRIPTION
 For a term, books.py will search either books or authors for those that contain the given term. The search type depends on the first tag before the search term. books.py will sort them depending on the second set of tags and return a list of the book titles, author names, and years published sorted by the specified tag.
 
-Given no search type, books.py will automatically search for book titles. Given no sort type, books.py will automatically sort by book title. books.py can also do a range if given two terms to obtain a list of books published between two different years.
+Given no search type, books.py will automatically search for book titles. Given no sort type, books.py will automatically sort by book title. Given no term to search, it'll return a list of either books or authors, depending on your search type.  
+
+books.py can also do a range if given two terms to obtain a list of books published between two different years (inclusive). It does not matter if year1 is greater than year2, the search will still return the range of books.
 
 	-r, --range	specifies that the following terms are years, will print out the books between those years inclusive
 

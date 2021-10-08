@@ -35,9 +35,6 @@ class Book:
             thing as "same book". '''
         return self.title == other.title
 
-booksList = [] # The complete list of books
-authorsList = [] # The complete list of authors
-
 class BooksDataSource:
     def __init__(self, books_csv_file_name):
         ''' The books CSV file format looks like this:
@@ -54,10 +51,10 @@ class BooksDataSource:
             a collection of Author objects and a collection of Book objects.
         '''
         
-        global booksList # The complete list of books
-        global authorsList # The complete list of authors
+        self.booksList = [] # The complete list of books
+        self.authorsList = [] # The complete list of authors
 
-        if len(booksList) != 0:
+        if len(self.booksList) != 0:
             return None
         
         file = open(books_csv_file_name)
@@ -105,8 +102,8 @@ class BooksDataSource:
             else:
                 author1 = Author(surname, givenName, birthYearTemp, '')
             
-            if author1 not in authorsList:
-                authorsList.append(author1) # this adds our now parsed author to the list of authors
+            if author1 not in self.authorsList:
+                self.authorsList.append(author1) # this adds our now parsed author to the list of authors
             
             booksAuthors.append(author1)
 
@@ -135,15 +132,15 @@ class BooksDataSource:
                 else:
                     author2 = Author(surname, givenName, birthYearTemp, '')
                 
-                if author1 not in authorsList:                
-                    authorsList.append(author2)
+                if author1 not in self.authorsList:                
+                    self.authorsList.append(author2)
                 booksAuthors.append(author2)
 
             '''
             Parsing Book Information
             '''
             book1 = Book(bookTitle, publicationYear, booksAuthors)
-            booksList.append(book1)
+            self.booksList.append(book1)
 
     def printBooks(self, printedList = []):
         '''
@@ -171,12 +168,11 @@ class BooksDataSource:
             by surname, breaking ties using given name (e.g. Ann Brontë comes before Charlotte Brontë).
         '''
 
-        global authorsList
         qualifyingauthors = []
         if search_text==None:
-            return self.sortBySurname(authorsList)
+            return self.sortBySurname(self.authorsList)
 
-        for author in authorsList:
+        for author in self.authorsList:
             if search_text in author.surname or search_text in author.given_name:
                 qualifyingauthors.append(author)
 
@@ -194,12 +190,11 @@ class BooksDataSource:
                 default -- same as 'title' (that is, if sort_by is anything other than 'year'
                             or 'title', just do the same thing you would do for 'title')
         '''
-        global booksList
         qualifyingbooks = []
         if search_text==None:
-            return booksList
+            return self.booksList
 
-        for book in booksList:
+        for book in self.booksList:
             if search_text in book.title:
                 qualifyingbooks.append(book)
         
@@ -221,14 +216,7 @@ class BooksDataSource:
             during start_year should be included. If both are None, then all books
             should be included.
         '''
-        global booksList
         qualifyingbooks = []
-
-        #0 is the same as inputting nothing for a year in our implementation.
-        if start_year == 0:
-            start_year = None
-        if end_year == 0:
-            end_year = None
         
         if start_year != None and end_year != None and start_year > end_year: #in case the order of the years doesn't make sense, we can swap them instead of throwing an error
             temp = start_year
@@ -236,26 +224,26 @@ class BooksDataSource:
             end_year = temp
         
         if start_year == None and end_year == None:
-            qualifyingbooks = booksList
+            qualifyingbooks = self.booksList
         elif start_year == None:
             '''
             Get all the books published from the beginning of time to end_year (inclusive)
             '''
-            for book in booksList:
+            for book in self.booksList:
                 if int(book.publication_year) <= end_year:
                     qualifyingbooks.append(book)
         elif end_year == None:
             '''
             Get all the books published from the start_year to the end of time (inclusive)
             '''
-            for book in booksList:
+            for book in self.booksList:
                 if int(book.publication_year) >= start_year:
                     qualifyingbooks.append(book)
         else:
             '''
             Get all books published between the start_year (inclusive) and end-year (inclusive)
             '''
-            for book in booksList:
+            for book in self.booksList:
                 if int(book.publication_year) >= start_year and int(book.publication_year) <= end_year:
                     qualifyingbooks.append(book)
         
@@ -285,7 +273,4 @@ class BooksDataSource:
 
 
 if __name__ == '__main__':
-    books = BooksDataSource('books1.csv')
-
-    #books.printBooks(booksList)
-    #books.printBooks(books.books_between_years(2019,2018))
+    
