@@ -21,6 +21,7 @@ class Author:
         ''' For simplicity, we're going to assume that no two authors have the same name. '''
         return self.surname == other.surname and self.given_name == other.given_name
 
+
 class Book:
     def __init__(self, title='', publication_year=None, authors=[]):
         ''' Note that the self.authors instance variable is a list of
@@ -28,6 +29,7 @@ class Book:
         self.title = title
         self.publication_year = publication_year
         self.authors = authors
+        self.primaryAuthor = authors[0] # this is the first author for easy sorting by surname
 
     def __eq__(self, other):
         ''' We're going to make the excessively simplifying assumption that
@@ -169,12 +171,14 @@ class BooksDataSource:
         '''
 
         qualifyingauthors = []
-        if search_text==None:
-            return self.sortBySurname(self.authorsList)
-
-        for author in self.authorsList:
-            if search_text in author.surname or search_text in author.given_name:
-                qualifyingauthors.append(author)
+        if search_text == None:
+            qualifyingauthors = self.booksList
+        else:
+            for book in self.booksList:
+                if search_text in book.authors[0].surname or search_text in book.authors[0].given_name:
+                    qualifyingauthors.append(book)
+                elif len(book.authors) > 1 and (search_text in book.authors[1].surname or search_text in book.authors[1].given_name):
+                    qualifyingauthors.append(book)
 
         return self.sortBySurname(qualifyingauthors)
 
@@ -268,9 +272,5 @@ class BooksDataSource:
         '''
         Sorts a list of given authors by their surname, breaking ties by given name.
         '''
-        sortedAuthors = sorted(qualifyingauthors, key = operator.attrgetter('surname', 'given_name'))
+        sortedAuthors = sorted(qualifyingauthors, key = operator.attrgetter('primaryAuthor.surname', 'primaryAuthor.given_name'))
         return sortedAuthors
-
-
-if __name__ == '__main__':
-    
