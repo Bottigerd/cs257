@@ -192,7 +192,7 @@ class BooksDataSource:
         '''
         qualifyingbooks = []
         if search_text==None:
-            return self.booksList
+            qualifyingbooks = self.booksList
 
         for book in self.booksList:
             if search_text in book.title:
@@ -270,7 +270,3 @@ class BooksDataSource:
         '''
         sortedAuthors = sorted(qualifyingauthors, key = operator.attrgetter('surname', 'given_name'))
         return sortedAuthors
-
-
-if __name__ == '__main__':
-    
