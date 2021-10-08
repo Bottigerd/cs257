@@ -268,5 +268,6 @@ class BooksDataSource:
         '''
         Sorts a list of given authors by their surname, breaking ties by given name.
         '''
+        
         sortedAuthors = sorted(qualifyingauthors, key = operator.attrgetter('surname', 'given_name'))
         return sortedAuthors

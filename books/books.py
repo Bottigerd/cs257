@@ -48,3 +48,6 @@ else:
     else:
         searchResults = booksdatasource.books(args.searchTerm)
     booksdatasource.printBooks(searchResults)
+
+print()
+print()
