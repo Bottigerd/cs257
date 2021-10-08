@@ -224,7 +224,11 @@ class BooksDataSource:
             should be included.
         '''
         qualifyingbooks = []
-        
+        if start_year != None:
+            start_year = int(start_year)
+        if end_year != None:
+            end_year = int(end_year)
+            
         if start_year != None and end_year != None and start_year > end_year: #in case the order of the years doesn't make sense, we can swap them instead of throwing an error
             temp = start_year
             start_year = end_year
