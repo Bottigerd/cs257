@@ -151,8 +151,11 @@ class BooksDataSource:
 
         for book in printedList:
             if (len(book.authors) > 1):
+                # title, publication_year, author0.given_name author0.surname (author0.birth_year - author0.death_year)
+                # and author1.given_name author1.surname (author1.birth_year - author1.death_year)
                 print(book.title + ', ' + book.publication_year + ', ' + book.authors[0].given_name + ' ' + book.authors[0].surname + ' (' + book.authors[0].birth_year + '-' + book.authors[0].death_year + ')' + ' and ' + book.authors[1].given_name + ' ' + book.authors[1].surname+ '(' + book.authors[1].birth_year + '-' + book.authors[1].death_year + ')')
             else:
+                # title, publication_year, author0.given_name author0.surname (author0.birth_year - author0.death_year)
                 print(book.title + ', ' + book.publication_year + ', ' + book.authors[0].given_name + ' ' + book.authors[0].surname + ' (' + book.authors[0].birth_year + '-' + book.authors[0].death_year + ')')
 
     def printAuthors(self, printedList = []):
