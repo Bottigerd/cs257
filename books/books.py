@@ -32,12 +32,6 @@ if args.help:
     f.close()
 elif args.authors:
     searchResults = booksdatasource.authors(args.searchTerm)
-    booksdatasource.printAuthors(searchResults)
-elif args.books:
-    if args.YearSort:
-        searchResults = booksdatasource.books(args.searchTerm, 'year')
-    else:
-        searchResults = booksdatasource.books(args.searchTerm)
     booksdatasource.printBooks(searchResults)
 elif args.range:
     searchResults = booksdatasource.books_between_years(int(args.searchTerm), int(args.searchTerm2))
@@ -49,5 +43,6 @@ else:
         searchResults = booksdatasource.books(args.searchTerm)
     booksdatasource.printBooks(searchResults)
 
+# We just wanted the terminal to be a little bit more readable that is all.
 print()
 print()
