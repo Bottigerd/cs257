@@ -193,10 +193,10 @@ class BooksDataSource:
         qualifyingbooks = []
         if search_text==None:
             qualifyingbooks = self.booksList
-
-        for book in self.booksList:
-            if search_text in book.title:
-                qualifyingbooks.append(book)
+        else: 
+            for book in self.booksList:
+                if search_text in book.title:
+                    qualifyingbooks.append(book)
         
         if sort_by == 'year':
             return self.sortByYear(qualifyingbooks)
