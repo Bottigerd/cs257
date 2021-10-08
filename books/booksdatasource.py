@@ -175,9 +175,9 @@ class BooksDataSource:
             qualifyingauthors = self.booksList
         else:
             for book in self.booksList:
-                if search_text in book.authors[0].surname or search_text in book.authors[0].given_name:
+                if search_text.lower() in book.authors[0].surname.lower() or search_text.lower() in book.authors[0].given_name.lower():
                     qualifyingauthors.append(book)
-                elif len(book.authors) > 1 and (search_text in book.authors[1].surname or search_text in book.authors[1].given_name):
+                elif len(book.authors) > 1 and (search_text.lower() in book.authors[1].surname.lower() or search_text.lower() in book.authors[1].given_name.lower()):
                     qualifyingauthors.append(book)
 
         return self.sortBySurname(qualifyingauthors)
@@ -199,7 +199,7 @@ class BooksDataSource:
             qualifyingbooks = self.booksList
         else: 
             for book in self.booksList:
-                if search_text in book.title:
+                if search_text.lower() in book.title.lower():
                     qualifyingbooks.append(book)
         
         if sort_by == 'year':

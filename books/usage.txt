@@ -10,7 +10,7 @@ SYNOPSIS
 	python3 books.py [-r] <year1> <year2>
 
 DESCRIPTION
-For a term, books.py will search either books or authors for those that contain the given term. The search type depends on the first tag before the search term. books.py will sort them depending on the second set of tags and return a list of the book titles, author names, and years published sorted by the specified tag.
+For a term, books.py will search either books or authors that contain the given term (case insensitive). The search type depends on the first tag before the search term. books.py will sort them depending on the second set of tags and return a list of the book titles, author names, and years published sorted by the specified tag. This means that an author search will return more than just the author names, you'll also see the books that they wrote.
 
 Given no search type, books.py will automatically search for book titles. Given no sort type, books.py will automatically sort by book title. Given no term to search, it'll return a list of either books or authors, depending on your search type.  
 
