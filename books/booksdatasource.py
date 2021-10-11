@@ -29,7 +29,7 @@ class Book:
         self.title = title
         self.publication_year = publication_year
         self.authors = authors
-        self.primaryAuthor = authors[0] # this is the first author for easy sorting by surname
+        self.primary_author = authors[0] # this is the first author for easy sorting by surname
 
     def __eq__(self, other):
         ''' We're going to make the excessively simplifying assumption that
@@ -52,62 +52,62 @@ class BooksDataSource:
             suitable instance variables for the BooksDataSource object containing
             a collection of Author objects and a collection of Book objects.
         '''
-        
-        self.booksList = [] # The complete list of books
-        self.authorsList = [] # The complete list of authors
 
-        if len(self.booksList) != 0:
+        self.books_list = [] # The complete list of books
+        self.authors_list = [] # The complete list of authors
+
+        if len(self.books_list) != 0:
             return None
-        
+
         file = open(books_csv_file_name)
-        csvreader = csv.reader(file)
+        csv_reader = csv.reader(file)
         rows = []
-        for row in csvreader: 
+        for row in csv_reader:
             rows.append(row)
         file.close()
 
         for row in rows: # each row in rows is a different book publication
-            bookTitle = row[0]
-            publicationYear = row[1]
-            authorsString = row[2] # this is a string of the author(s) information (pre-parsing)
+            book_title = row[0]
+            publication_year = row[1]
+            authors_string = row[2] # this is a string of the author(s) information (pre-parsing)
 
             '''
             Parsing Author Information
             This should work unless we have an author with three words in their name which is the case sometimes.
             Here's some thoughts on how we could get that to work:
-                We could keep concatinating onto the given name/surname until the first character of our string is a '(', in which case we move onto our usual birth/death year stuff. 
-                We could probably have an index counter for where we are in authorTemp, so the stuff for second author would be like index+1, index+2, etc.
+                We could keep concatinating onto the given name/surname until the first character of our string is a '(', in which case we move onto our usual birth/death year stuff.
+                We could probably have an index counter for where we are in author_temp_array, so the stuff for second author would be like index+1, index+2, etc.
             '''
-            authorTemp = authorsString.split(' ') # this splits our string of authors into an array for easier digesting.
+            author_temp_array = authors_string.split(' ') # this splits our string of authors into an array for easier digesting.
             '''
             Name Parsing, Author 1
             '''
             index = 0
-            givenName = ''
-            while authorTemp[index+1][0] != '(':
-                givenName = givenName + authorTemp[index] + ' '
+            given_name = ''
+            while author_temp_array[index+1][0] != '(':
+                given_name = given_name + author_temp_array[index] + ' '
                 index = index + 1
-            
-            surname = authorTemp[index].strip()
-            givenName = givenName.strip()
+
+            surname = author_temp_array[index].strip()
+            given_name = given_name.strip()
 
             '''
             Year Parsing and appending to lists, Author 1
             '''
-            birthYearTemp = authorTemp[index+1][1: 5]
-            deathYearTemp = None # this creates deathYearTemp so we can access it outside of the if statement
+            birth_year_temp = author_temp_array[index+1][1: 5]
+            death_year_temp = None # this creates death_year_temp so we can access it outside of the if statement
             author1 = None # this creates the author so we can access it outside of the if statement and so we can add it to the book later
-            booksAuthors = []
-            if len(authorTemp[index+1]) > 7:
-                deathYearTemp = authorTemp[index+1][6: 10] # this gets the death year if it does exist
-                author1 = Author(surname, givenName, birthYearTemp, deathYearTemp)
+            books_authors = []
+            if len(author_temp_array[index+1]) > 7:
+                death_year_temp = author_temp_array[index+1][6: 10] # this gets the death year if it does exist
+                author1 = Author(surname, given_name, birth_year_temp, death_year_temp)
             else:
-                author1 = Author(surname, givenName, birthYearTemp, '')
-            
-            if author1 not in self.authorsList:
-                self.authorsList.append(author1) # this adds our now parsed author to the list of authors
-            
-            booksAuthors.append(author1)
+                author1 = Author(surname, given_name, birth_year_temp, '')
+
+            if author1 not in self.authors_list:
+                self.authors_list.append(author1) # this adds our now parsed author to the list of authors
+
+            books_authors.append(author1)
 
             '''
             Name Parsing, Author 2
@@ -115,41 +115,41 @@ class BooksDataSource:
             author2 = None # we have a variable so we can add it to the book
             index = index + 3 # one for the years, one for the and that seperates the authors
 
-            if len(authorTemp)-index > 0: # this is for the case of more than one author
-                givenName = ''
-                while authorTemp[index+1][0] != '(':
-                    givenName = givenName + authorTemp[index] + ' '
+            if len(author_temp_array)-index > 0: # this is for the case of more than one author
+                given_name = ''
+                while author_temp_array[index+1][0] != '(':
+                    given_name = given_name + author_temp_array[index] + ' '
                     index = index + 1
-            
-                surname = authorTemp[index].strip()
-                givenName = givenName.strip()
+
+                surname = author_temp_array[index].strip()
+                given_name = given_name.strip()
 
                 '''
                 Year Parsing and appending to lists, Author 2
                 '''
-                birthYearTemp = authorTemp[index+1][1: 5]
-                if len(authorTemp[index+1]) > 7:
-                    deathYearTemp = authorTemp[6][6: 10] # this gets the death year if it does exist
-                    author2 = Author(surname, givenName, birthYearTemp, deathYearTemp)
+                birth_year_temp = author_temp_array[index+1][1: 5]
+                if len(author_temp_array[index+1]) > 7:
+                    death_year_temp = author_temp_array[6][6: 10] # this gets the death year if it does exist
+                    author2 = Author(surname, given_name, birth_year_temp, death_year_temp)
                 else:
-                    author2 = Author(surname, givenName, birthYearTemp, '')
-                
-                if author1 not in self.authorsList:                
-                    self.authorsList.append(author2)
-                booksAuthors.append(author2)
+                    author2 = Author(surname, given_name, birth_year_temp, '')
+
+                if author1 not in self.authors_list:
+                    self.authors_list.append(author2)
+                books_authors.append(author2)
 
             '''
             Parsing Book Information
             '''
-            book1 = Book(bookTitle, publicationYear, booksAuthors)
-            self.booksList.append(book1)
+            book1 = Book(book_title, publication_year, books_authors)
+            self.books_list.append(book1)
 
-    def printBooks(self, printedList = []):
+    def print_books(self, printed_list = []):
         '''
-        A method purely for testing if booksList got its information right
+        A method purely for testing if books_list got its information right
         '''
 
-        for book in printedList:
+        for book in printed_list:
             if (len(book.authors) > 1):
                 # title, publication_year, author0.given_name author0.surname (author0.birth_year - author0.death_year)
                 # and author1.given_name author1.surname (author1.birth_year - author1.death_year)
@@ -158,13 +158,13 @@ class BooksDataSource:
                 # title, publication_year, author0.given_name author0.surname (author0.birth_year - author0.death_year)
                 print(book.title + ', ' + book.publication_year + ', ' + book.authors[0].given_name + ' ' + book.authors[0].surname + ' (' + book.authors[0].birth_year + '-' + book.authors[0].death_year + ')')
 
-    def printAuthors(self, printedList = []):
+    def print_authors(self, printed_list = []):
         '''
-        A method purely for testing if booksList got its information right
-        ''' 
-        
-        for author in printedList:
-            print(author.given_name + ' ' + author.surname + ' (' + author.birth_year + '-' + author.death_year + ')')        
+        A method purely for testing if books_list got its information right
+        '''
+
+        for author in printed_list:
+            print(author.given_name + ' ' + author.surname + ' (' + author.birth_year + '-' + author.death_year + ')')
 
     def authors(self, search_text=None):
         ''' Returns a list of all the Author objects in this data source whose names contain
@@ -173,17 +173,17 @@ class BooksDataSource:
             by surname, breaking ties using given name (e.g. Ann Brontë comes before Charlotte Brontë).
         '''
 
-        qualifyingauthors = []
+        qualifying_authors = []
         if search_text == None:
-            qualifyingauthors = self.booksList
+            qualifying_authors = self.books_list
         else:
-            for book in self.booksList:
+            for book in self.books_list:
                 if search_text.lower() in book.authors[0].surname.lower() or search_text.lower() in book.authors[0].given_name.lower():
-                    qualifyingauthors.append(book)
+                    qualifying_authors.append(book)
                 elif len(book.authors) > 1 and (search_text.lower() in book.authors[1].surname.lower() or search_text.lower() in book.authors[1].given_name.lower()):
-                    qualifyingauthors.append(book)
+                    qualifying_authors.append(book)
 
-        return self.sortBySurname(qualifyingauthors)
+        return self.sort_by_surname(qualifying_authors)
 
     def books(self, search_text=None, sort_by='title'):
         ''' Returns a list of all the Book objects in this data source whose
@@ -197,18 +197,18 @@ class BooksDataSource:
                 default -- same as 'title' (that is, if sort_by is anything other than 'year'
                             or 'title', just do the same thing you would do for 'title')
         '''
-        qualifyingbooks = []
+        qualifying_books = []
         if search_text==None:
-            qualifyingbooks = self.booksList
-        else: 
-            for book in self.booksList:
-                if search_text.lower() in book.title.lower():
-                    qualifyingbooks.append(book)
-        
-        if sort_by == 'year':
-            return self.sortByYear(qualifyingbooks)
+            qualifying_books = self.books_list
         else:
-            return self.sortByTitle(qualifyingbooks)
+            for book in self.books_list:
+                if search_text.lower() in book.title.lower():
+                    qualifying_books.append(book)
+
+        if sort_by == 'year':
+            return self.sort_by_year(qualifying_books)
+        else:
+            return self.sort_by_title(qualifying_books)
 
 
 
@@ -223,61 +223,61 @@ class BooksDataSource:
             during start_year should be included. If both are None, then all books
             should be included.
         '''
-        qualifyingbooks = []
+        qualifying_books = []
         if start_year != None:
             start_year = int(start_year)
         if end_year != None:
             end_year = int(end_year)
-            
+
         if start_year != None and end_year != None and start_year > end_year: #in case the order of the years doesn't make sense, we can swap them instead of throwing an error
             temp = start_year
             start_year = end_year
             end_year = temp
-        
+
         if start_year == None and end_year == None:
-            qualifyingbooks = self.booksList
+            qualifying_books = self.books_list
         elif start_year == None:
             '''
             Get all the books published from the beginning of time to end_year (inclusive)
             '''
-            for book in self.booksList:
+            for book in self.books_list:
                 if int(book.publication_year) <= end_year:
-                    qualifyingbooks.append(book)
+                    qualifying_books.append(book)
         elif end_year == None:
             '''
             Get all the books published from the start_year to the end of time (inclusive)
             '''
-            for book in self.booksList:
+            for book in self.books_list:
                 if int(book.publication_year) >= start_year:
-                    qualifyingbooks.append(book)
+                    qualifying_books.append(book)
         else:
             '''
             Get all books published between the start_year (inclusive) and end-year (inclusive)
             '''
-            for book in self.booksList:
+            for book in self.books_list:
                 if int(book.publication_year) >= start_year and int(book.publication_year) <= end_year:
-                    qualifyingbooks.append(book)
-        
-        return self.sortByYear(qualifyingbooks)
-    
-    def sortByYear(self, qualifyingbooks = []):
+                    qualifying_books.append(book)
+
+        return self.sort_by_year(qualifying_books)
+
+    def sort_by_year(self, qualifying_books = []):
         '''
         Sorts a list of given books by their publication date, ties are broken by title.
         '''
-        sortedBooks = sorted(qualifyingbooks, key = operator.attrgetter('publication_year', 'title'))
-        return sortedBooks
+        sorted_books = sorted(qualifying_books, key = operator.attrgetter('publication_year', 'title'))
+        return sorted_books
 
-    def sortByTitle(self, qualifyingbooks = []):
+    def sort_by_title(self, qualifying_books = []):
         '''
         Sorts a list of given books by their title, breaking ties by year. Though there shouldn't be any books with the same name.
         '''
 
-        sortedBooks = sorted(qualifyingbooks, key = operator.attrgetter('title', 'publication_year'))
-        return sortedBooks
+        sorted_books = sorted(qualifying_books, key = operator.attrgetter('title', 'publication_year'))
+        return sorted_books
 
-    def sortBySurname(self, qualifyingauthors = []):
+    def sort_by_surname(self, qualifying_books = []):
         '''
-        Sorts a list of given authors by their surname, breaking ties by given name.
+        Sorts a list of given books by various authors by the authors surname, breaking ties by given_name.
         '''
-        sortedAuthors = sorted(qualifyingauthors, key = operator.attrgetter('primaryAuthor.surname', 'primaryAuthor.given_name'))
-        return sortedAuthors
+        sorted_books = sorted(qualifying_books, key = operator.attrgetter('primary_author.surname', 'primary_author.given_name'))
+        return sorted_books
