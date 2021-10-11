@@ -1,5 +1,9 @@
-#Kiri and Dani books.py
-#Version 1 9/28/21
+'''
+    books.py
+    Dani Bottiger and Kiri Salij
+
+    CS 257 Software Design class, Fall 2021
+'''
 
 import argparse
 from booksdatasource import Book, Author, BooksDataSource
