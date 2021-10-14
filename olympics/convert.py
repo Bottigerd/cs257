@@ -9,7 +9,7 @@ on the orignal. These smaller csv files are then put into an olympic database.
 import csv
 
 class olympic_db:
-    def __init__(self, athlete_events_raw='', noc_regions_raw=''):
+    def __init__(self, athlete_events_raw=[], noc_regions_raw=[]):
         '''
         Reads our athlete_event csv file from
             kaggle.com/heesoo37/120-years-of-olympic-history-athletes-and-results
@@ -20,10 +20,12 @@ class olympic_db:
             ID, Name, Sex, Age, Height, Weight, Team, NOC, Games, Year, Season, City, Sport, Event, Medal
         
         Columns in noc_regions:
-            0    1       2
-            NOC, region, notes
+            0   1    2       3
+            ID, NOC, region, notes
         '''
         self.athlete_events_raw = self.read_csv_file(athlete_events_raw)
+        self.athlete_events_raw.pop(0) # This removes the headings, we don't need those.
+
         self.noc_regions = self.read_csv_file(noc_regions_raw)
         print("Raw data aquired!")
 
@@ -56,7 +58,6 @@ class olympic_db:
         for row in csvreader:
             raw_dictionary.append(row)
         file.close()
-        raw_dictionary.pop(0)
         return raw_dictionary
     
     def write_athletes_csv(self, raw_dictionary):
@@ -64,8 +65,8 @@ class olympic_db:
         From athlete_events_raw, create an olympian_athletes_list and write to a csv file.
 
         Columns in olympian_athletes_list:
-            0   1     2    3    
-            ID, Name, Sex, NOC_ID
+            0   1     2   
+            ID, Name, Sex
         '''
         olympian_athletes_list = []
         for row in raw_dictionary:
@@ -81,16 +82,14 @@ class olympic_db:
                 temp_athlete.append(row[2]) # Sex
 
                 '''
-                We don't add Age, Height, or Weight since those change for those in multiple olympics.
+                We don't add Age, Height, or Weight, or NOC since those change for those in multiple olympics.
                 This will be stored with in our per_olympic_athelete table.
                 '''
 
-                noc_id_num = 1
-                for noc in self.noc_regions:
-                    if noc[0] == row[7]:    # Team and NOC (combined -> Team exists in NOC db)
-                        temp_athlete.append(noc_id_num) # NOC_ID
-                    else:
-                        noc_id_num = noc_id_num + 1
+                if len(olympian_athletes_list) % 5000 == 0: # Hey super long convert.py... you still working?
+                    percent = round(len(olympian_athletes_list) / len(raw_dictionary), 2)
+                    print(str(percent) + "% ")
+                
                 olympian_athletes_list.append(temp_athlete)
 
         with open('olympian_athlete_data.csv', 'w') as olympian_athlete_data_file:
@@ -121,6 +120,10 @@ class olympic_db:
                 temp_olympics.append(row[9]) # Year
                 temp_olympics.append(row[10]) # Season
                 temp_olympics.append(row[11]) # City
+
+                if len(olympics_list) % 100 == 0: # Hey super long convert.py... you still working?
+                    print(temp_olympics)
+                
                 olympics_list.append(temp_olympics)
         
         with open('olympics_data.csv', 'w') as olympics_data_file:
@@ -150,6 +153,10 @@ class olympic_db:
                 temp_olympic_event.append(row[10]) # Season
                 temp_olympic_event.append(row[12]) # Sport
                 temp_olympic_event.append(row[13]) # Event
+
+                if len(olympic_events_list) % 100 == 0: # Hey super long convert.py... you still working?
+                    print(temp_olympic_event)
+
                 olympic_events_list.append(temp_olympic_event)
 
         with open('olympic_event_data.csv', 'w') as olympic_events_data_file:
@@ -195,6 +202,11 @@ class olympic_db:
                         olympian_id_num = olympian_id_num + 1
 
             temp_olympic_event_result.append(row[14])
+
+            if len(olympic_event_results_list) % 5000 == 0: # Hey super long convert.py... you still working?
+                percent = round( len(olympic_event_results_list) / len(raw_dictionary), 2)
+                print(str(percent) + "% ")
+
             olympic_event_results_list.append(temp_olympic_event_result)
 
         with open('olympic_event_results_data.csv', 'w') as olympic_event_results_data_file:
@@ -239,6 +251,18 @@ class olympic_db:
                 temp_per_olympic_athlete_data.append(row[3]) # Age
                 temp_per_olympic_athlete_data.append(row[4]) # Height
                 temp_per_olympic_athlete_data.append(row[5]) # Weight
+
+                noc_id_num = 1
+                for noc in self.noc_regions:
+                    if noc[1] == row[7]:    # Team and NOC (combined -> Team exists in NOC db)
+                        temp_per_olympic_athlete_data.append(noc_id_num) # NOC_ID
+                    else:
+                        noc_id_num = noc_id_num + 1
+
+                if len(per_olympic_athlete_data_list) % 500 == 0: # Hey super long convert.py... you still working?
+                    percent = round(len(per_olympic_athlete_data_list) / len(raw_dictionary), 2)
+                    print(str(percent) + "% ")
+
                 per_olympic_athlete_data_list.append(temp_per_olympic_athlete_data)
 
         with open('per_olympic_athlete_data.csv', 'w') as per_olympic_athlete_data_file:
@@ -254,5 +278,8 @@ if __name__ == '__main__':
     Quick Copy Things! AKA Everything is burning down quick, test the things!
 
     if len(per_olympic_athlete_data_list) >= 10: # Purely for testing. No way I'm sitting through 100k lines of data each time I run this.
-                break
+                break'
+
+    if len(list) % 500 == 0: # Hey super long convert.py... you still working?
+        print(temp_list)
     '''

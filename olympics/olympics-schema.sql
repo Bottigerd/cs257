@@ -1,8 +1,7 @@
 CREATE TABLE olympian_athletes (
 	id SERIAL,
 	name text,
-	sex text,
-	noc integer
+	sex text
 );
 
 CREATE TABLE noc_regions (
@@ -24,7 +23,7 @@ CREATE TABLE olympic_events (
 	id SERIAL,
 	season text,
 	sport text,
-	event text,
+	event text
 );
 
 CREATE TABLE olympic_event_results (
@@ -32,7 +31,7 @@ CREATE TABLE olympic_event_results (
 	olympic_id integer,
 	olympic_event_id integer,
 	olympian_id integer,
-	medal text,
+	medal text
 );
 
 CREATE TABLE per_olympic_athlete_data (
@@ -41,7 +40,8 @@ CREATE TABLE per_olympic_athlete_data (
 	olympian_id integer,
 	age text,
 	height text,
-	weight text
+	weight text,
+	noc text
 );
 	
 	
