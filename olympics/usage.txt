@@ -1,0 +1,21 @@
+CS257 SOFTWARE DESIGN - FALL 2021
+DANI BOTTIGER
+
+NAME
+	olympics.py -- list olympic event and athlete database information
+
+SYNOPSIS
+	python3 olympics.py [-ahnm] <term>
+
+DESCRIPTION
+olympics.py is a tool to search olympic medal results, athlete data, and NOC member data. The search type depends on the first tag before the search term. You can search for an athlete's name and be given their events and the medals they've earned, the members of an NOC, or see the number of gold medals won by an NOC (this needs no search term).
+
+With no tag, olympics.py will search for athletes and their event results. Given no search term in an athlete search, you'll obtain all the olympic medal results; this is the default behavior. 
+
+If the noc tag is missing a search term, the usage documentation will show. If the medals tag recieves a search term, it will ignore it.
+
+	-a, --athlete	search for a list of the athletes yeilded by the search term and their medals listed by year, name, and then event.
+	-n, --noc		given an NOC abbrievation or ID number, list the names of all the athletes in that NOC alphabetically
+	-m, --medals	list the NOCs and the number of gold medals each have one in descending order
+
+	-h, --help		provides the user with the usage documentation
