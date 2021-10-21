@@ -187,6 +187,6 @@ else:
     else:
         database_searches.list_athletes_medals(args.search_term)
 
-# Don't forget to close the database connection.
+# Closing the database connection.
 connection.close()
 
