@@ -1,11 +1,7 @@
 #!/usr/bin/env python3
 '''
-    flask_sample.py
-    Jeff Ondich, 22 April 2016
-    Updated 7 October 2020
-
-    A slightly more complicated Flask sample app than the
-    "hello world" app found at http://flask.pocoo.org/.
+    olympics-api.py
+    Dani Bottiger, October 25 2021
 '''
 import sys
 import argparse
@@ -101,31 +97,6 @@ def get_medalists(games_id):
     for row in cursor:
         medals_list.append({'id':row[0], 'name':row[1], 'sex':row[2], 'sport':row[3], 'event':row[4], 'medal':row[5]})
     return json.dumps(medals_list)
-    
-@app.route('/movies')
-def get_movies():
-    ''' Returns the list of movies that match GET parameters:
-          start_year, int: reject any movie released earlier than this year
-          end_year, int: reject any movie released later than this year
-          genre: reject any movie whose genre does not match this genre exactly
-        If a GET parameter is absent, then any movie is treated as though
-        it meets the corresponding constraint. (That is, accept a movie unless
-        it is explicitly rejected by a GET parameter.)
-    '''
-    movie_list = []
-    genre = flask.request.args.get('genre')
-    start_year = flask.request.args.get('start_year', default=0, type=int)
-    end_year = flask.request.args.get('end_year', default=10000, type=int)
-    for movie in movies:
-        if genre is not None and genre != movie['genre']:
-            continue
-        if movie['year'] < start_year:
-            continue
-        if movie['year'] > end_year:
-            continue
-        movie_list.append(movie)
-
-    return json.dumps(movie_list)
 
 if __name__ == '__main__':
     try:
